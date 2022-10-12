@@ -1,7 +1,7 @@
 # Password-Generator
 Module 3 - JavaScript Challenge
 
-## This application randomly a password that meets certain criteria input by the user. The critera are length of the password, and character types (lowercase, uppercase, number and special character) to be included.
+## This application randomly generate a password that meets certain criteria input by the user. The critera are the length of the password, and the character types (lowercase, uppercase, number and special character) to be included.
 
 ## Installation
 
