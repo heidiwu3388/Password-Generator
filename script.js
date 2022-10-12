@@ -1,23 +1,6 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
-var SpecialChar = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; //32 available special characters
-
-// generate random lower case character - 26 characters, starts at ASCII 97
-function genRandomLower() { return String.fromCharCode(Math.floor(Math.random() * 26) + 97); }
-
-// generate random upper case character - 26 characters, starts at ASCII 65
-function genRandomUpper() { return String.fromCharCode(Math.floor(Math.random() * 26) + 65); }
-
-// generate random single digit number - 10 numbers (0-9), starts at ASCII 48
-function genRandomNumber() { return String.fromCharCode(Math.floor(Math.random() * 10) + 48); }
-
-// generate random special character
-function genRandomSpecial() {
-  var randomIndex = Math.floor(Math.random() * SpecialChar.length)
-  return(SpecialChar[randomIndex]);
-}
-
-//console.log(genRandomLower(), genRandomUpper(), genRandomNumber(), genRandomSpecialChar());
+const SpecialChar = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; //32 available special characters
 
 // return a random password
 function generatePassword() {
@@ -28,19 +11,16 @@ function generatePassword() {
   var hasUpper;
   var hasNumber;
   var hasSpecialChar;
-  var arrCharType = [];
+  const arrCharType = [];
 
   // get password length from user
   pwdLength = window.prompt("Please input the length of the password:\n(8-128 characters)");
-  console.log("pwdLength: " + pwdLength);
   // if user click CANCEL, do nothing
   if (pwdLength === null) return null;
-  
   // input validation: length must be 8-128
   while (pwdLength<8 || pwdLength>128) { 
     alert("Invalid password length❗\nIt must be 8-128 Characters.\nTry again ...");
     pwdLength = window.prompt("Please input the length of the password:\n(8-128 characters)");
-    console.log("pwdLength: " + pwdLength);
     if (pwdLength === null) return null;
   }
 
@@ -48,46 +28,57 @@ function generatePassword() {
   // construct the array with all the included character types
   if (hasLower = window.confirm("Include lowercase letters?")) {
     arrCharType.push("Lower");
-  };
+  }
   if (hasUpper = window.confirm("Include uppercase letter?")) {
     arrCharType.push("Upper");
-  };
+  }
   if (hasNumber = window.confirm("Include numbers?")) {
     arrCharType.push("Number");
   }
   if (hasSpecialChar = window.confirm("Include Special Characters?\n" + SpecialChar)) {
     arrCharType.push("Special");
   }
-  console.log(hasLower, hasUpper, hasNumber, hasSpecialChar, arrCharType);
   // input validation: at least one character type should be included
   if (arrCharType.length === 0) {
     window.alert("No character type is selected❗\nAt least one of the character types (Lowercase, Uppercase, Number or Special Character) should be included.");
     return null;
   }
   
+  console.log("arrCharType: ", arrCharType);
   // loop for the length of the password
   for (let i=0; i<pwdLength; i++)
   {
-    // randomly select character type from the arrCharType
-    var charType = arrCharType[Math.floor(Math.random() * arrCharType.length)];
-    console.log("charType: " + charType);
+    //randomly select character type from the arrCharType
+    let charType = arrCharType[Math.floor(Math.random() * arrCharType.length)];
+    console.log("charType: " + i + " " + charType);
+    
+    //?? not sure if this is a better way to choose the charType
+    //sequentially picking character type from arrCharType
+    // let charType = arrCharType[i%arrCharType.length];
+    // console.log("charType: " + i + " " + charType);
+      
     
     // generate random character according to the randomly selected type
     switch(charType) {
       case "Lower":
-        passwordGenerated+=genRandomLower();
+        // generate random lower case character - 26 characters (a-z), starts at Unicode 97
+        passwordGenerated += String.fromCharCode(Math.floor(Math.random() * 26) + 97);
         break;
       case "Upper":
-        passwordGenerated+=genRandomUpper();
+        // generate random upper case character - 26 characters (A-Z), starts at Unicode 65
+        passwordGenerated += String.fromCharCode(Math.floor(Math.random() * 26) + 65);
         break;
       case "Number":
-        passwordGenerated+=genRandomNumber();
+        // generate random single digit number - 10 numbers (0-9), starts at Unicode 48
+        passwordGenerated += String.fromCharCode(Math.floor(Math.random() * 10) + 48);
         break;
       case "Special":
-        passwordGenerated+=genRandomSpecial();
+        // generate random special character from the array SpecialChar[] which contains all possible special characters
+        passwordGenerated += SpecialChar[Math.floor(Math.random() * SpecialChar.length)];
         break;
     }
   }
+
   // return password
   return passwordGenerated;
 }
@@ -96,7 +87,6 @@ function generatePassword() {
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
-  console.log("password: " + password);
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
